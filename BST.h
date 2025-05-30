@@ -14,28 +14,28 @@ public:
 
     ~BST();
 
-    void insert(BSTNode *newNode);
+    void insert(Currency* newCurrency);
 
-    BSTNode* search(BSTNode *node);
+    BSTNode* search(Currency* currency);
 
     void print() const;
 
-    BSTNode* deleteNode(BSTNode *node);
+    BSTNode* deleteFromTree(Currency* data, BSTNode* parent);
 
     bool isEmpty() const{ return root == nullptr; }
 
 private:
     BSTNode *root;
-    BSTNode* findLargest(BSTNode *parent) const{ return parent->right == nullptr ? parent : findLargest(parent->right); }
-    BSTNode* findSmallest(BSTNode *parent) const{ return parent->left == nullptr ? parent : findSmallest(parent->left); }
-    void rotateLeft();
-    void rotateRight();
-    void leftBalance();
-    void rightBalance();
+  //  BSTNode* deleteNode(BSTNode *node);
+    // void rotateLeft();
+    // void rotateRight();
+    // void leftBalance();
+    // void rightBalance();
     void printNode(BSTNode *node,int tabulation) const;
 };
 
-inline void BST::insert(BSTNode *newNode) {
+inline void BST::insert(Currency* newCurrency) {
+    BSTNode *newNode = new BSTNode(newCurrency);
     if (root == nullptr) {
         root = newNode;
     } else {
@@ -59,13 +59,13 @@ inline void BST::insert(BSTNode *newNode) {
     }
 }
 
-inline BSTNode* BST::search(BSTNode *node) {
+inline BSTNode* BST::search(Currency* currency) {
     BSTNode *current = root;
     while (current != nullptr) {
-        if(node->data->isEqual(*current->data)) {
+        if(currency->isEqual(*current->data)) {
             return current;
         }
-        if (node->data->isGreater(*current->data)) {
+        if (currency->isGreater(*current->data)) {
             current = current->right;
         } else {
             current = current->left;
@@ -73,13 +73,86 @@ inline BSTNode* BST::search(BSTNode *node) {
     }
     return nullptr;
 }
-inline BSTNode* BST::deleteNode(BSTNode *node) {
-    BSTNode *current = search(node);
-    if (current == nullptr) {
+
+inline BSTNode* BST::deleteFromTree(Currency* data, BSTNode *newRoot = nullptr) {
+    if(root == nullptr) {
         return nullptr;
     }
-
+    if(newRoot == nullptr) {
+        newRoot = root;
+    }
+    if(data->isGreater(*newRoot->data)) {
+        std::cout << "Entering the Right Branch" << std::endl;
+        newRoot->right = deleteFromTree(data, newRoot->right);
+    }else if(newRoot->data->isGreater(*data)) {
+        std::cout << "Entering the Left Branch" << std::endl;
+        newRoot->left = deleteFromTree(data, newRoot->left);
+    }else {
+        if(newRoot->left == nullptr) {
+            return newRoot->right;
+        }
+        if(newRoot->right == nullptr) {
+            return newRoot->left;
+        }
+        BSTNode *current = newRoot->right;
+        while (current->left != nullptr) {
+            current = current->left;
+        }
+        newRoot->data = current->data;
+        newRoot->right = deleteFromTree(newRoot->data, newRoot->right);
+    }
+    return newRoot;
 }
+
+// inline BSTNode* BST::deleteNode(BSTNode *node) {
+//     BSTNode *current = root;
+//     BSTNode *parent = nullptr;
+//
+//     while (current != nullptr) {
+//         if(node->data->isEqual(*current->data)) {
+//             if(current->right == nullptr && current->left == nullptr) {
+//                 if(parent->left == current) {
+//                     parent->left = nullptr;
+//                 }else {
+//                     parent->right = nullptr;
+//                 }
+//             }
+//             else if(current->left ==nullptr) {
+//                 BSTNode *smallest = current->right;
+//                 parent = current;
+//                 while(smallest->left != nullptr) {
+//                     parent = smallest;
+//                     smallest = smallest->left;
+//                 }
+//                 current->data = smallest->data;
+//                 parent->left = nullptr;
+//                 delete smallest;
+//             }
+//             else if(current->right ==nullptr) {
+//                 BSTNode *largest = current->left;
+//                 parent = current;
+//                 while(largest->right != nullptr) {
+//                     parent = largest;
+//                     largest = largest->right;
+//                 }
+//                 current->data = largest->data;
+//                 parent->right = nullptr;
+//                 delete largest;
+//             }
+//             else {
+//
+//             }
+//             return node;
+//         }
+//         parent = current;
+//         if (node->data->isGreater(*current->data)) {
+//             current = current->right;
+//         } else {
+//             current = current->left;
+//         }
+//     }
+//     return nullptr;
+// }
 
 inline void BST::print() const{
     if(root == nullptr) {
@@ -108,6 +181,10 @@ inline void BST::printNode(BSTNode *node,int tabulation) const {
         printNode(node->right,tabulation+1);
     }
 }
+inline void BST::rotateLeft() {
+
+}
+
 
 
 #endif //BST_H
