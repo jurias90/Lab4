@@ -5,32 +5,26 @@
 #ifndef BST_H
 #define BST_H
 #include "BSTNode.h"
+#include "Queue.h"
 
 
 class BST {
 public:
     BST(): root(nullptr) {
     };
-
     ~BST();
-
     void insert(Currency* newCurrency);
-
     BSTNode* search(Currency* currency);
-
     void print() const;
-
     BSTNode* deleteFromTree(Currency* data, BSTNode* parent);
-
     bool isEmpty() const{ return root == nullptr; }
+    void traverseBreath(Queue *list, BSTNode *node);
+    void traverseInorder(Queue* list, BSTNode* node);
+    void traversePreorder(Queue* list, BSTNode* node);
+    void traversePostorder(Queue* list,BSTNode* node);
 
 private:
     BSTNode *root;
-  //  BSTNode* deleteNode(BSTNode *node);
-    // void rotateLeft();
-    // void rotateRight();
-    // void leftBalance();
-    // void rightBalance();
     void printNode(BSTNode *node,int tabulation) const;
 };
 
@@ -104,55 +98,7 @@ inline BSTNode* BST::deleteFromTree(Currency* data, BSTNode *newRoot = nullptr) 
     return newRoot;
 }
 
-// inline BSTNode* BST::deleteNode(BSTNode *node) {
-//     BSTNode *current = root;
-//     BSTNode *parent = nullptr;
-//
-//     while (current != nullptr) {
-//         if(node->data->isEqual(*current->data)) {
-//             if(current->right == nullptr && current->left == nullptr) {
-//                 if(parent->left == current) {
-//                     parent->left = nullptr;
-//                 }else {
-//                     parent->right = nullptr;
-//                 }
-//             }
-//             else if(current->left ==nullptr) {
-//                 BSTNode *smallest = current->right;
-//                 parent = current;
-//                 while(smallest->left != nullptr) {
-//                     parent = smallest;
-//                     smallest = smallest->left;
-//                 }
-//                 current->data = smallest->data;
-//                 parent->left = nullptr;
-//                 delete smallest;
-//             }
-//             else if(current->right ==nullptr) {
-//                 BSTNode *largest = current->left;
-//                 parent = current;
-//                 while(largest->right != nullptr) {
-//                     parent = largest;
-//                     largest = largest->right;
-//                 }
-//                 current->data = largest->data;
-//                 parent->right = nullptr;
-//                 delete largest;
-//             }
-//             else {
-//
-//             }
-//             return node;
-//         }
-//         parent = current;
-//         if (node->data->isGreater(*current->data)) {
-//             current = current->right;
-//         } else {
-//             current = current->left;
-//         }
-//     }
-//     return nullptr;
-// }
+
 
 inline void BST::print() const{
     if(root == nullptr) {
@@ -181,9 +127,52 @@ inline void BST::printNode(BSTNode *node,int tabulation) const {
         printNode(node->right,tabulation+1);
     }
 }
-inline void BST::rotateLeft() {
+
+inline void BST::traverseBreath(Queue* list, BSTNode *node = nullptr) {
+    if(root == nullptr) {
+        return;
+    }
+    if(node != nullptr) {
+        node = root;
+    }
 
 }
+
+inline void BST::traverseInorder(Queue* list, BSTNode *node = nullptr) {
+    if(root == nullptr) {
+        return;
+    }
+    if(node != nullptr) {
+        node = root;
+    }
+    traverseBreath(list, node->left);
+    list->enqueue(node->data);
+    traverseBreath(list, node->right);
+}
+inline void BST::traversePreorder(Queue* list, BSTNode *node = nullptr) {
+    if(root == nullptr) {
+        return;
+    }
+    if(node != nullptr) {
+        node = root;
+    }
+    list->enqueue(node->data);
+    traverseBreath(list, node->left);
+    traverseBreath(list, node->right);
+}
+
+inline void BST::traversePostorder(Queue* list, BSTNode *node = nullptr) {
+    if(root == nullptr) {
+        return;
+    }
+    if(node != nullptr) {
+        node = root;
+    }
+    traverseBreath(list, node->left);
+    traverseBreath(list, node->right);
+    list->enqueue(node->data);
+}
+
 
 
 
