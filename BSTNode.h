@@ -7,10 +7,34 @@
 
 #include "Currency.h"
 
-struct BSTNode {
+class BST;
+
+class BSTNode {
+public:
     BSTNode() =default;
     explicit BSTNode(Currency* newData) : data(newData) {};
     ~BSTNode() {}
+    Currency* getData() {
+        return data;
+    }
+    BSTNode* getRight() {
+        return right;
+    }
+    BSTNode* getLeft() {
+        return left;
+    }
+    void setData(Currency* data) {
+        this->data = data;
+    }
+    void setRight(BSTNode* node) {
+        right = node;
+    }
+    void setLeft(BSTNode* node) {
+        left = node;
+    }
+
+    friend class BST;
+private:
     Currency *data=nullptr;
     BSTNode *right=nullptr;
     BSTNode *left=nullptr;

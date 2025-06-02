@@ -12,7 +12,9 @@ public:
     BST(): root(nullptr) {
     };
 
-    ~BST();
+    ~BST() {
+        empty();
+    }
 
     void insert(BSTNode *newNode);
 
@@ -23,6 +25,12 @@ public:
     BSTNode* deleteNode(BSTNode *node);
 
     bool isEmpty() const{ return root == nullptr; }
+    void destroyTree(BSTNode* node);
+    void empty();
+    void breadthFirst(std::ostream& os) const;
+    void inOrder(std::ostream& os) const { inOrder(root, os); }
+    void preOrder(std::ostream& os) const { preOrder(root, os); }
+    void postOrder(std::ostream& os) const { postOrder(root, os); }
 
 private:
     BSTNode *root;
@@ -33,6 +41,10 @@ private:
     void leftBalance();
     void rightBalance();
     void printNode(BSTNode *node,int tabulation) const;
+
+    void inOrder(BSTNode* node, std::ostream& os) const;
+    void preOrder(BSTNode* node, std::ostream& os) const;
+    void postOrder(BSTNode* node, std::ostream& os) const;
 };
 
 inline void BST::insert(BSTNode *newNode) {
@@ -95,6 +107,19 @@ inline void BST::print() const{
         printNode(root->right,1);
     }
 }
+
+inline void BST::destroyTree(BSTNode* node) {
+    if (!node) return;
+    destroyTree(node->left);
+    destroyTree(node->right);
+    delete node;
+}
+
+inline void BST::empty() {
+    destroyTree(root);
+    root = nullptr;
+}
+
 inline void BST::printNode(BSTNode *node,int tabulation) const {
     if(node->left != nullptr) {
         printNode(node->left,tabulation+1);
@@ -109,5 +134,29 @@ inline void BST::printNode(BSTNode *node,int tabulation) const {
     }
 }
 
+inline void BST::breadthFirst(std::ostream& os) const {
+    // TODO
+}
+
+inline void BST::inOrder(BSTNode* node, std::ostream& os) const {
+    if (!node) return;
+    inOrder(node->left, os);
+    os << node->data->toString() << '\n';
+    inOrder(node->right, os);
+}
+
+inline void BST::preOrder(BSTNode* node, std::ostream& os) const {
+    if (!node) return;
+    os << node->data->toString() << '\n';
+    preOrder(node->left, os);
+    preOrder(node->right, os);
+}
+
+inline void BST::postOrder(BSTNode* node, std::ostream& os) const {
+    if (!node) return;
+    postOrder(node->left, os);
+    postOrder(node->right, os);
+    os << node->data->toString() << '\n';
+}
 
 #endif //BST_H
