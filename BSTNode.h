@@ -13,7 +13,7 @@ class BSTNode {
 public:
     BSTNode() =default;
     explicit BSTNode(Currency* newData) : data(newData) {};
-    ~BSTNode() {}
+    ~BSTNode() { delete data; }
     Currency* getData() {
         return data;
     }
