@@ -4,6 +4,8 @@
 
 #ifndef BST_H
 #define BST_H
+
+
 #include "BSTNode.h"
 
 
@@ -135,7 +137,27 @@ inline void BST::printNode(BSTNode *node,int tabulation) const {
 }
 
 inline void BST::breadthFirst(std::ostream& os) const {
-    // TODO
+    if(!root) return;
+    //I choose size of 16, not because I thought we would use that many points in the array
+    //but mostly due to paranoia. I know it will be 8 at most.
+    int size=16,front = 0, rear = 0;
+    //I had a problem coming up with an idea of how to use a queue without creating an entire new linked list
+    //so I decided to make my ADT from an array and treat it like a queue.
+    BSTNode **nodes = new BSTNode*[size];
+    nodes[rear++] = root;
+    while(front < rear) {
+        BSTNode *current = nodes[front++];
+        os << current->data->toString() << '\n';
+
+        if(current->left != nullptr) {
+            nodes[rear++] = current->left;
+        }
+        if(current->right != nullptr) {
+            nodes[rear++] = current->right;
+        }
+    }
+
+    delete[] nodes;
 }
 
 inline void BST::inOrder(BSTNode* node, std::ostream& os) const {
