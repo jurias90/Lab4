@@ -149,6 +149,16 @@ inline void BST::breadthFirst(std::ostream& os) const {
         BSTNode *current = nodes[front++];
         os << current->data->toString() << '\n';
 
+        if(rear+2 >= size) {
+            size *= 2;
+            BSTNode **newNodes = new BSTNode*[size];
+            for(int i=0;i<rear;i++) {
+                newNodes[i] = nodes[i];
+            }
+            delete[] nodes;
+            nodes = newNodes;
+        }
+
         if(current->left != nullptr) {
             nodes[rear++] = current->left;
         }
