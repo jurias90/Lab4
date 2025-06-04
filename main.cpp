@@ -55,7 +55,6 @@ int main()
                 }
                 tree->insert(node);
                 cout << "Inserted.\n";
-                outFile << "Inserted: " << node->getData()->toString() << endl;
                 break;
             case 2: {  // Search
                 node = getNewNodeFromInput(outFile);
@@ -64,12 +63,10 @@ int main()
                 }
                 BSTNode* found = tree->search(node);
                 if (found) {
-                    cout << "Found: " << found->getData() << endl;
-                    outFile << "Found: " << found->getData() << endl;
+                    cout << "Found: " << found->getData()->toString() << endl;
                 }
                 else {
                     cout << "Not found.\n";
-                    outFile << "Not found: " << node->getData()->toString() << endl;
                 }
                 delete node;  // cleanup since not inserted
                 break;
@@ -81,7 +78,6 @@ int main()
                 }
                 tree->deleteNode(node);
                 cout << "Deleted (if existed).\n";
-                outFile << "Deleted (if existed): " << node->getData()->toString() << endl;
                 delete node; // cleanup since not inserted
                 break;
             case 4:  // Print traversals
@@ -96,7 +92,6 @@ int main()
         }
         catch (string& err) {
             cout << "Error: " << err << endl;
-            outFile << "Error: " << err << endl;
         }
     }
 
@@ -104,8 +99,6 @@ int main()
     writeAllTraversals(tree, outFile);
 
     outFile.close();
-
-    tree->print();
     delete tree;
     return 0;
 }
@@ -138,7 +131,7 @@ BSTNode* getNewNodeFromInput(ostream& os) {
     cout << "Enter Drachma value (e.g., 44.55): ";
     cin >> input;
     if (!isValidValue(input)) {
-        cout << "Invalid input: must be >= 0\n";
+        cout << "Invalid input for operation: " << input << endl;
         os << "Invalid input for operation: " << input << endl;
         return NULL;
     }

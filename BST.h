@@ -19,13 +19,9 @@ public:
     }
 
     void insert(BSTNode *newNode);
-
     BSTNode* search(BSTNode *node);
-
     void print() const;
-
-    BSTNode* deleteNode(BSTNode *node);
-
+    void deleteNode(BSTNode *node);
     bool isEmpty() const{ return root == nullptr; }
     void destroyTree(BSTNode* node);
     void empty();
@@ -38,10 +34,7 @@ private:
     BSTNode *root;
     BSTNode* findLargest(BSTNode *parent) const{ return parent->right == nullptr ? parent : findLargest(parent->right); }
     BSTNode* findSmallest(BSTNode *parent) const{ return parent->left == nullptr ? parent : findSmallest(parent->left); }
-    void rotateLeft();
-    void rotateRight();
-    void leftBalance();
-    void rightBalance();
+    BSTNode* removeVal(BSTNode* node, const DrachmaCurrency& target);
     void printNode(BSTNode *node,int tabulation) const;
 
     void inOrder(BSTNode* node, std::ostream& os) const;
@@ -87,12 +80,45 @@ inline BSTNode* BST::search(BSTNode *node) {
     }
     return nullptr;
 }
-inline BSTNode* BST::deleteNode(BSTNode *node) {
+inline void BST::deleteNode(BSTNode *node) {
     BSTNode *current = search(node);
     if (current == nullptr) {
-        return nullptr;
+        return;
+    }
+    root = removeVal(root, node->data);
+}
+
+inline BSTNode* BST::removeVal(BSTNode* node, const DrachmaCurrency& target) {
+    if (!node) return nullptr;
+
+    if (node->data->isGreater(target))
+        node->left = removeVal(node->left, target);
+    else if (target.isGreater(*node->data))
+        node->right = removeVal(node->right, target);
+    else {
+        // Case: 0 or 1 child
+        if (!node->left) {
+            BSTNode* temp = node->right;
+            delete node;
+            return temp;
+        }
+        else if (!node->right) {
+            BSTNode* temp = node->left;
+            delete node;
+            return temp;
+        }
+
+        // Case: 2 children - find inorder successor (smallest in right subtree)
+        BSTNode* minNode = node->right;
+        while (minNode->left)
+            minNode = minNode->left;
+        // free node data
+        delete node->data;
+        node->setData(new DrachmaCurrency(minNode->data));
+        node->right = removeVal(node->right, minNode->data);  // Delete duplicate node
     }
 
+    return node;
 }
 
 inline void BST::print() const{
@@ -138,36 +164,37 @@ inline void BST::printNode(BSTNode *node,int tabulation) const {
 
 inline void BST::breadthFirst(std::ostream& os) const {
     if(!root) return;
-    //I choose size of 16, not because I thought we would use that many points in the array
+    //I choose size of 100, not because I thought we would use that many points in the array
     //but mostly due to paranoia. I know it will be 8 at most.
-    int size=16,front = 0, rear = 0;
+    int size = 100,front = 0, rear = 0;
     //I had a problem coming up with an idea of how to use a queue without creating an entire new linked list
     //so I decided to make my ADT from an array and treat it like a queue.
-    BSTNode **nodes = new BSTNode*[size];
-    nodes[rear++] = root;
+    BSTNode **queue = new BSTNode*[size];
+    queue[rear++] = root;
     while(front < rear) {
-        BSTNode *current = nodes[front++];
-        os << current->data->toString() << '\n';
+        BSTNode *current = queue[front++];
+        os << current->data->toString() << std::endl;
 
-        if(rear+2 >= size) {
+        // resize queue
+        if(rear + 2 >= size) {
             size *= 2;
-            BSTNode **newNodes = new BSTNode*[size];
+            BSTNode **newQueue = new BSTNode*[size];
             for(int i=0;i<rear;i++) {
-                newNodes[i] = nodes[i];
+                newQueue[i] = queue[i];
             }
-            delete[] nodes;
-            nodes = newNodes;
+            delete[] queue;
+            queue = newQueue;
         }
 
         if(current->left != nullptr) {
-            nodes[rear++] = current->left;
+            queue[rear++] = current->left;
         }
         if(current->right != nullptr) {
-            nodes[rear++] = current->right;
+            queue[rear++] = current->right;
         }
     }
 
-    delete[] nodes;
+    delete[] queue;
 }
 
 inline void BST::inOrder(BSTNode* node, std::ostream& os) const {
