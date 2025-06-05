@@ -49,7 +49,7 @@ public:
 
     friend class BST;
 private:
-    const DrachmaCurrency *data = nullptr;
+    Currency *data = nullptr;
     BSTNode *right=nullptr;
     BSTNode *left=nullptr;
 };

@@ -52,7 +52,7 @@ public:
              root - it will delete  this node if the tree is in the tree.
         Return:
     **/
-    void deleteNode(const DrachmaCurrency *target);
+    void deleteNode(Currency *target);
     /**
     Method isEmpty()
         -This method checks to see if the tree is empty.
@@ -115,7 +115,7 @@ private:
               root - New data will be saved into the root upon deletion
         Return:
     **/
-    BSTNode* removeVal(BSTNode* node, const DrachmaCurrency* target);
+    BSTNode* removeVal(BSTNode *node, const Currency *target);
     /**
     Method printNode(node, tabulation)
         -This recursive function will find the nodes in the tree and print it sideways
@@ -177,7 +177,7 @@ inline BSTNode* BST::search(Currency* target) {
     }
     return nullptr;
 }
-inline void BST::deleteNode(const DrachmaCurrency *target) {
+inline void BST::deleteNode(Currency *target) {
     BSTNode *current = search(target);
     if (current == nullptr) {
         return;
@@ -185,7 +185,7 @@ inline void BST::deleteNode(const DrachmaCurrency *target) {
     root = removeVal(root, target);
 }
 
-inline BSTNode* BST::removeVal(BSTNode* node, const DrachmaCurrency* target) {
+inline BSTNode* BST::removeVal(BSTNode* node, const Currency* target) {
     if (!node) return nullptr;
 
     if (node->data->isGreater(*target))
@@ -211,7 +211,7 @@ inline BSTNode* BST::removeVal(BSTNode* node, const DrachmaCurrency* target) {
             minNode = minNode->left;
         // free node data
         delete node->data;
-        node->setData(new DrachmaCurrency(*minNode->data));
+        node->setData(new DrachmaCurrency(minNode->data));
         node->right = removeVal(node->right, minNode->data);  // Delete duplicate node
     }
 
