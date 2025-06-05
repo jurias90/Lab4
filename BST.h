@@ -125,7 +125,7 @@ private:
         Return:
     **/
     void printNode(BSTNode *node,int tabulation) const;
-    //The Recursive Traversal Functions
+    //The Recursive Traversal Functions' Helper
     void inOrder(BSTNode* node, std::ostream& os) const;
     void preOrder(BSTNode* node, std::ostream& os) const;
     void postOrder(BSTNode* node, std::ostream& os) const;
@@ -164,12 +164,11 @@ inline void BST::insert(Currency* target) {
 
 inline BSTNode* BST::search(Currency* target) {
     BSTNode *current = root;
-    BSTNode *node = new BSTNode(target);
     while (current != nullptr) {
-        if(node->data->isEqual(*current->data)) {
+        if(target->isEqual(*current->data)) {
             return current;
         }
-        if (node->data->isGreater(*current->data)) {
+        if (target->isGreater(*current->data)) {
             current = current->right;
         } else {
             current = current->left;

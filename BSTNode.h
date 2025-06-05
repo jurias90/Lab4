@@ -15,11 +15,11 @@ public:
     explicit BSTNode(Currency* newData) : data(newData) {};
     ~BSTNode() { delete data; }
     /**
-    Method getValue()
+    Method getData()
         -The point of this method is to safely retrieve the private of the class
         Pre:
         Post:
-        Return: unsigned int value
+        Return: unsigned int data
     **/
     Currency* getData() {
         return data;
@@ -31,10 +31,10 @@ public:
         return left;
     }
     /**
-    Method setValue(newValue)
+    Method setData(data)
         -The point of this method is to safely save into the private of the class
-        Pre: newValue - the value
-        Post: value - newValue is saved into value
+        Pre: data - the new data
+        Post: data - new data is saved into data
         Return:
     **/
     void setData(Currency* data) {

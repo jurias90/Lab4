@@ -1,3 +1,10 @@
+/**
+Lab #4
+    Group CPP2
+    Team Memebers: Jesus Urias, Nhung Vo
+    Purpose: The purpose of this lab is implement a BST ADT for DrachmaCurrency
+**/
+
 #include <iostream>
 #include <fstream>
 #include "BST.h"
@@ -13,7 +20,6 @@ DrachmaCurrency* getNewNodeFromInput(ostream& os);
 int main()
 {
     BST *tree = new BST();
-    BSTNode* node = nullptr;
     DrachmaCurrency* newItem = nullptr;
     ofstream outFile("output.txt");
     if (!outFile) {
@@ -40,7 +46,7 @@ int main()
     writeAllTraversals(tree, outFile);
 
     // User interaction
-    int choice;
+    int choice = 0;
     while (choice !=5) {
         printMenu();
         cin >> choice;
@@ -74,7 +80,7 @@ int main()
                 else {
                     cout << "Not found.\n";
                 }
-                delete node;  // cleanup since not inserted
+                delete newItem;  // cleanup since not inserted
                 break;
             }
             case 3:  // Delete
@@ -84,7 +90,7 @@ int main()
                 }
                 tree->deleteNode(newItem);
                 cout << "Deleted (if existed).\n";
-                delete node; // cleanup since not inserted
+                delete newItem; // cleanup since not inserted
                 break;
             case 4:  // Print traversals
                 writeAllTraversals(tree, cout);
@@ -109,6 +115,14 @@ int main()
     return 0;
 }
 
+/**
+    Method writeAllTraversals(tree, os)
+        -This method will print the given tree in all 4 traversal factions
+        Pre: tree - the tree to be printed
+             os - the output stream
+        Post: the printed tree in Breadth-first, in-order, pre-order, and post-order to the output stream
+        Return:
+    **/
 void writeAllTraversals(BST* tree, ostream& os) {
     os << "\nBreadth-First:\n"; tree->breadthFirst(os);
     os << "\nIn-Order:\n"; tree->inOrder(os);
@@ -116,6 +130,13 @@ void writeAllTraversals(BST* tree, ostream& os) {
     os << "\nPost-Order:\n"; tree->postOrder(os);
 }
 
+/**
+    Method printMenu()
+        -This method will print the interactive menu for the user
+        Pre: 
+        Post: the user's interactive menu
+        Return:
+    **/
 void printMenu() {
     cout << "\nOptions:\n";
     cout << "1. Insert\n";
@@ -126,10 +147,19 @@ void printMenu() {
     cout << "Choose an option: ";
 }
 
+// helper function to check a valid input
 bool isValidValue(double value) {
     return value >= 0;
 }
 
+/**
+    Method getNewNodeFromInput(os)
+        -This method will print the given tree in all 4 traversal factions
+        Pre:
+             os - the output stream
+        Post: return the input as a DrachmaCurrency object and printed out to standard and given output stream if it is invalid
+        Return: dr - a new DrachmaCurrency object created from user's input
+    **/
 DrachmaCurrency* getNewNodeFromInput(ostream& os) {
     BSTNode* node = nullptr;
     DrachmaCurrency* dr = nullptr;
