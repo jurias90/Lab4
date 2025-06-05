@@ -47,14 +47,21 @@ int main()
 
         try {
             switch (choice) {
-            case 1:  // Insert
+            case 1: {
+                // Insert
                 newItem = getNewNodeFromInput(outFile);
                 if (!newItem) {
                     continue;
                 }
+                BSTNode* found = tree->search(newItem);
+                if (found) {
+                    cout << "The item is already in the list"<< endl;
+                    break;
+                }
                 tree->insert(newItem);
                 cout << "Inserted.\n";
                 break;
+            }
             case 2: {  // Search
                 newItem = getNewNodeFromInput(outFile);
                 if (!newItem) {
