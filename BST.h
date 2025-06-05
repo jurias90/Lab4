@@ -17,32 +17,124 @@ public:
     ~BST() {
         empty();
     }
-
-    void insert(BSTNode *newNode);
-    BSTNode* search(BSTNode *node);
+    /**
+    Method insert(new currency)
+        -This method will add a new node to the tree and reject it if it is already in the tree
+        Pre: node - the node to be added
+        Post: parent->left - the node from where the new node will be added if it is smaller then the parent.
+             parent->right - the node from where the new node will be added if it is bigger then the parent.
+             root - it will save onto this node if the tree is empty.
+        Return:
+    **/
+    void insert(Currency *target);
+    /**
+    Method search(currency)
+        -This method will search for a value to see if it exists
+        Pre: currency - the node to be added
+        Post:
+        Return: foundNode - it will return a node if it has the same value
+    **/
+    BSTNode* search(Currency *target);
+    /**
+    Method print()
+        -This method will take the data from the node and print it to the console.
+        Pre:
+        Post:
+        Return:
+    **/
     void print() const;
-    void deleteNode(BSTNode *node);
+    /**
+    Method deleteNode(target)
+        -deleteNode will take a value and find it in the tree, and delete it.
+        Pre: target - the currency that is being looked for.
+        Post:parent->left - the node from where the new node will be deleted if it is smaller then the parent.
+             parent->right - the node from where the new node will be deleted if it is bigger then the parent.
+             root - it will delete  this node if the tree is in the tree.
+        Return:
+    **/
+    void deleteNode(const DrachmaCurrency *target);
+    /**
+    Method isEmpty()
+        -This method checks to see if the tree is empty.
+        Pre:
+        Post:
+        Return:true or false
+    **/
     bool isEmpty() const{ return root == nullptr; }
-    void destroyTree(BSTNode* node);
+    /**
+    Method empty()
+        -This method will delete the entire tree
+        Pre:
+        Post:root - will completely delete the node and every node attached to it.
+        Return:
+    **/
     void empty();
+    //Traversal Functions
+    //These were made to keep the root unaccessible to the user and call the private function instead with  given root.
+    /**
+    Algorithm breadthFirst(outputStream)
+        -This algorithm searches traverses the tree in breadth first order and prints out the data to the stream given
+        Pre:outputStream - the given ostream to stream the data to
+        Post: node - its data will be access and printed out
+        Return:
+    **/
     void breadthFirst(std::ostream& os) const;
+    /**
+    Algorithm inOrder(outputStream)
+        -This algorithm searches traverses the tree in order from smallest to biggest and prints out to the given ostream
+        Pre:outputStream - the given ostream to stream the data to
+        Post: node - its data will be access and printed out
+        Return:
+    **/
     void inOrder(std::ostream& os) const { inOrder(root, os); }
+    /**
+    Algorithm preOrder(outputStream)
+        -This algorithm searches traverses the tree pre order from smallest to biggest and prints out to the given ostream
+        Pre:outputStream - the given ostream to stream the data to
+        Post: node - its data will be access and printed out
+        Return:
+    **/
     void preOrder(std::ostream& os) const { preOrder(root, os); }
+    /**
+    Algorithm postOrder(outputStream)
+        -This algorithm searches traverses the tree post order from smallest to biggest and prints out to the given ostream
+        Pre:outputStream - the given ostream to stream the data to
+        Post: node - its data will be access and printed out
+        Return:
+    **/
     void postOrder(std::ostream& os) const { postOrder(root, os); }
-
 private:
     BSTNode *root;
-    BSTNode* findLargest(BSTNode *parent) const{ return parent->right == nullptr ? parent : findLargest(parent->right); }
-    BSTNode* findSmallest(BSTNode *parent) const{ return parent->left == nullptr ? parent : findSmallest(parent->left); }
-    BSTNode* removeVal(BSTNode* node, const DrachmaCurrency& target);
+     //Recursive functions
+    /**
+    Algorithm removeVal(node,target)
+        -This recursive algorithm calls itself to delete the correct node and save the new node to root to balance
+        Pre:node - the current node in check
+            target - the value for deletion
+        Post: current-> the data that will be deleted
+              root - New data will be saved into the root upon deletion
+        Return:
+    **/
+    BSTNode* removeVal(BSTNode* node, const DrachmaCurrency* target);
+    /**
+    Method printNode(node, tabulation)
+        -This recursive function will find the nodes in the tree and print it sideways
+        Pre: node - the node for traversal and access to data
+            tabulation - the amount of tabs needed to keep an image of the tree
+        Post:
+        Return:
+    **/
     void printNode(BSTNode *node,int tabulation) const;
-
+    //The Recursive Traversal Functions
     void inOrder(BSTNode* node, std::ostream& os) const;
     void preOrder(BSTNode* node, std::ostream& os) const;
     void postOrder(BSTNode* node, std::ostream& os) const;
+    void destroyTree(BSTNode* node);
 };
 
-inline void BST::insert(BSTNode *newNode) {
+
+inline void BST::insert(Currency* target) {
+    BSTNode *newNode = new BSTNode(target);
     if (root == nullptr) {
         root = newNode;
     } else {
@@ -50,12 +142,16 @@ inline void BST::insert(BSTNode *newNode) {
         BSTNode *parent = nullptr;
         while (current != nullptr) {
             parent = current;
+            if (newNode->data->isEqual(*current->data)) {
+                return;
+            }
             if (newNode->data->isGreater(*current->data)) {
                 current = parent->right;
             } else {
                 current = parent->left;
             }
         }
+
         if (newNode->data->isGreater(*parent->data)) {
             parent->right = newNode;
 
@@ -66,8 +162,9 @@ inline void BST::insert(BSTNode *newNode) {
     }
 }
 
-inline BSTNode* BST::search(BSTNode *node) {
+inline BSTNode* BST::search(Currency* target) {
     BSTNode *current = root;
+    BSTNode *node = new BSTNode(target);
     while (current != nullptr) {
         if(node->data->isEqual(*current->data)) {
             return current;
@@ -80,20 +177,20 @@ inline BSTNode* BST::search(BSTNode *node) {
     }
     return nullptr;
 }
-inline void BST::deleteNode(BSTNode *node) {
-    BSTNode *current = search(node);
+inline void BST::deleteNode(const DrachmaCurrency *target) {
+    BSTNode *current = search(target);
     if (current == nullptr) {
         return;
     }
-    root = removeVal(root, node->data);
+    root = removeVal(root, target);
 }
 
-inline BSTNode* BST::removeVal(BSTNode* node, const DrachmaCurrency& target) {
+inline BSTNode* BST::removeVal(BSTNode* node, const DrachmaCurrency* target) {
     if (!node) return nullptr;
 
-    if (node->data->isGreater(target))
+    if (node->data->isGreater(*target))
         node->left = removeVal(node->left, target);
-    else if (target.isGreater(*node->data))
+    else if (target->isGreater(*node->data))
         node->right = removeVal(node->right, target);
     else {
         // Case: 0 or 1 child
@@ -102,7 +199,7 @@ inline BSTNode* BST::removeVal(BSTNode* node, const DrachmaCurrency& target) {
             delete node;
             return temp;
         }
-        else if (!node->right) {
+         if (!node->right) {
             BSTNode* temp = node->left;
             delete node;
             return temp;
@@ -114,7 +211,7 @@ inline BSTNode* BST::removeVal(BSTNode* node, const DrachmaCurrency& target) {
             minNode = minNode->left;
         // free node data
         delete node->data;
-        node->setData(new DrachmaCurrency(minNode->data));
+        node->setData(new DrachmaCurrency(*minNode->data));
         node->right = removeVal(node->right, minNode->data);  // Delete duplicate node
     }
 

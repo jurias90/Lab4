@@ -1,0 +1,120 @@
+
+Breadth-First:
+57.12 Drachma
+23.44 Drachma
+87.43 Drachma
+18.36 Drachma
+44.55 Drachma
+68.99 Drachma
+111.22 Drachma
+11.00 Drachma
+36.18 Drachma
+48.48 Drachma
+77.77 Drachma
+101.00 Drachma
+345.67 Drachma
+
+In-Order:
+11.00 Drachma
+18.36 Drachma
+23.44 Drachma
+36.18 Drachma
+44.55 Drachma
+48.48 Drachma
+57.12 Drachma
+68.99 Drachma
+77.77 Drachma
+87.43 Drachma
+101.00 Drachma
+111.22 Drachma
+345.67 Drachma
+
+Pre-Order:
+57.12 Drachma
+23.44 Drachma
+18.36 Drachma
+11.00 Drachma
+44.55 Drachma
+36.18 Drachma
+48.48 Drachma
+87.43 Drachma
+68.99 Drachma
+77.77 Drachma
+111.22 Drachma
+101.00 Drachma
+345.67 Drachma
+
+Post-Order:
+11.00 Drachma
+18.36 Drachma
+36.18 Drachma
+48.48 Drachma
+44.55 Drachma
+23.44 Drachma
+77.77 Drachma
+68.99 Drachma
+101.00 Drachma
+345.67 Drachma
+111.22 Drachma
+87.43 Drachma
+57.12 Drachma
+
+Breadth-First:
+57.12 Drachma
+23.44 Drachma
+87.43 Drachma
+18.36 Drachma
+44.55 Drachma
+68.99 Drachma
+111.22 Drachma
+11.00 Drachma
+36.18 Drachma
+48.48 Drachma
+77.77 Drachma
+101.00 Drachma
+345.67 Drachma
+
+In-Order:
+11.00 Drachma
+18.36 Drachma
+23.44 Drachma
+36.18 Drachma
+44.55 Drachma
+48.48 Drachma
+57.12 Drachma
+68.99 Drachma
+77.77 Drachma
+87.43 Drachma
+101.00 Drachma
+111.22 Drachma
+345.67 Drachma
+
+Pre-Order:
+57.12 Drachma
+23.44 Drachma
+18.36 Drachma
+11.00 Drachma
+44.55 Drachma
+36.18 Drachma
+48.48 Drachma
+87.43 Drachma
+68.99 Drachma
+77.77 Drachma
+111.22 Drachma
+101.00 Drachma
+345.67 Drachma
+
+Post-Order:
+11.00 Drachma
+18.36 Drachma
+36.18 Drachma
+48.48 Drachma
+44.55 Drachma
+23.44 Drachma
+77.77 Drachma
+68.99 Drachma
+101.00 Drachma
+345.67 Drachma
+111.22 Drachma
+87.43 Drachma
+57.12 Drachma
